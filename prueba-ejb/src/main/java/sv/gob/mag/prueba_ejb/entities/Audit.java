@@ -1,18 +1,23 @@
 package sv.gob.mag.prueba_ejb.entities;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class Audit {
+public abstract class Audit implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Column(name = "CREATED_BY")
     private Long createdBy;
@@ -20,22 +25,17 @@ public abstract class Audit {
     @Column(name = "CREATED_AT", columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @Column(name = "CREATED_BY")
-    private Long updateBy;
+    @Column(name = "UPDATED_BY")
+    private Long updatedBy;
 
     @Column(name = "UPDATED_AT", columnDefinition = "TIMESTAMP")
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.createdBy = 1L;
-    }
 
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
-        this.updateBy = 1L;
+        this.updatedBy = 1L;
     }
     
 }

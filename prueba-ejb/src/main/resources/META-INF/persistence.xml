@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence version="3.0"
+             xmlns:xsi="http://w3.org"
+             xmlns="https://jakarta.ee"
+             xsi:schemaLocation="https://jakarta.ee
+                                 https://jakarta.ee/persistence_3_0.xsd">
+
+    <persistence-unit name="prueba_jakarta" transaction-type="JTA">
+
+
+        <jta-data-source>java:/OracleDS</jta-data-source>
+
+
+        <class>sv.gob.mag.prueba_ejb.entities</class>
+
+        <properties>
+
+            <property name="jakarta.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
+            <property name="hibernate.default_schema" value="TEMPLATEDB" />
+            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
+
+
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+
+
+
+            <property name="hibernate.synonyms" value="false"/>
+        </properties>
+
+    </persistence-unit>
+</persistence>
