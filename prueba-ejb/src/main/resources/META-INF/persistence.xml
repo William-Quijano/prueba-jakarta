@@ -11,7 +11,7 @@
         <jta-data-source>java:/OracleDS</jta-data-source>
 
 
-        <class>sv.gob.mag.prueba_ejb.entities</class>
+        <class>sv.gob.mag.ejb.entities</class>
 
         <properties>
 

@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/prueba-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/prueba-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/prueba-dto/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/prueba-dto/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/prueba-ear/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/prueba-ear/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/prueba-ejb/src/main/java" charset="UTF-8" />
@@ -11,6 +13,8 @@
     <file url="file://$PROJECT_DIR$/prueba-web/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$APPLICATION_HOME_DIR$/bin/src/main/java" charset="UTF-8" />
+    <file url="file://$APPLICATION_HOME_DIR$/bin/src/main/resources" charset="UTF-8" />
     <file url="file://$USER_HOME$/src/main/java" charset="UTF-8" />
     <file url="file://$USER_HOME$/src/main/resources" charset="UTF-8" />
   </component>
