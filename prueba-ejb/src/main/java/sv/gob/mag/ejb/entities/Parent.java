@@ -29,7 +29,7 @@ public class Parent extends AuditWithEnabled implements Serializable {
     private Long id;
 
     @Column(name = "CODE", columnDefinition = "VARCHAR2(255)", nullable = false, unique = true, updatable = false)
-    private UUID code;
+    private String code;
 
     @Column(name = "NAME",  columnDefinition = "VARCHAR2(100)", nullable = false)
     private String name;

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -20,12 +21,12 @@ public class ParentResponseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private UUID code;
+    private String code;
     private String name;
     private String status;
     private Integer enabled;
 
-    private ParentDetailResponseDTO parentDetails;
+    private List<ParentDetailResponseDTO> parentDetails;
 
     private Long createdBy;
     private LocalDateTime createdAt;

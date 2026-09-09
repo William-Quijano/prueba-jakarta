@@ -40,7 +40,8 @@ public class AuditListener {
     private void registerCode(Parent parent){
         parent.setStatus(StatusEnum.PENDIENTE);
         if(parent.getCode() != null) return;
-        parent.setCode(UUID.randomUUID());
+        String codeTemplate = "PARENT-" +  UUID.randomUUID().toString();
+        parent.setCode(codeTemplate);
 
     }
 }

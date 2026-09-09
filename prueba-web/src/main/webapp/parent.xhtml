@@ -1,76 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="jakarta.faces.html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:component="jakarta.faces.composite/components">
 
 <h:head>
     <title>Prueba jakarta</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <h:link rel="stylesheet" type="text/css" href="/resources/main.css"/>
+
 </h:head>
 <h:body>
     <ui:define name="title">Parent</ui:define>
 
     <ui:define name="head">
+
         <f:metadata>
             <f:viewAction action="#{parentController.init()}"/>
         </f:metadata>
     </ui:define>
+    <p:growl id="growl" showDetail="true"/>
+
+    <component:tableParent value="#{parentController.parentList}"/>
 
 
-    <p:dataTable id="tablaPrent" value="#{parentController.parentList}" var="parent"
-                 rowKey="#{parent.code}"
-                 rows="10"
-                 paginator="true" paginatorPosition="both"
-                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                 rowsPerPageTemplate="5,10,20"
-    >
-        <f:facet name="header">
-            Parent Jakarta
-        </f:facet>
-        <p:column style="width:2rem" ariaHeaderText="Row Toggler">
-            <p:rowToggler/>
-        </p:column>
-        <p:column headerText="Id">
-            <h:outputText value="#{parent.id}" />
-        </p:column>
-        <p:column headerText="Código">
-            <h:outputText value="#{parent.code}" />
-        </p:column>
-        <p:column headerText="Nombre">
-            <h:outputText value="#{parent.name}" />
-        </p:column>
-        <p:column headerText="Estado">
-            <p:badge value="#{parent.status}" styleClass="mr-2" />
-        </p:column>
-        <p:column headerText="Fecha creación">
-            <h:outputText value="#{parent.createdAt}" />
-        </p:column>
 
-        <p:rowExpansion>
-            <div>
-
-                <p:dataTable id="tablaPrent" value="#{parent.parentDetails}" var="parentDetail"
-                             rowKey="#{parentDetail.id}"
-                             rows="10"
-                             paginator="true" paginatorPosition="both"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                             rowsPerPageTemplate="5,10,20"
-                >
-
-                    <p:column headerText="Id">
-                        <h:outputText value="#{parentDetail.id}" />
-                    </p:column>
-                    <p:column headerText="Nombre">
-                        <h:outputText value="#{parentDetail.name}" />
-                    </p:column>
-
-                </p:dataTable>
-            </div>
-        </p:rowExpansion>
-
-    </p:dataTable>
 </h:body>
 </html>

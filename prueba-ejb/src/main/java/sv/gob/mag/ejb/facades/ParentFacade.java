@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 import jakarta.persistence.TypedQuery;
+import lombok.NoArgsConstructor;
 import sv.gob.mag.dto.request.ParentRequestDTO;
 import sv.gob.mag.ejb.entities.Parent;
 
@@ -24,26 +25,31 @@ public class ParentFacade implements ParentFacadeLocal {
 
     @Override
     public List<Parent> listAll(Integer page, Integer perPage) {
-        EntityGraph<Parent> graph = em.createEntityGraph(Parent.class);
-        graph.addSubgraph("parentDetails");
-
-
-        TypedQuery<Parent> query = em.createQuery("SELECT p FROM Parent p ORDER BY p.id ASC", Parent.class);
-
+        TypedQuery<Parent> query = em.createQuery(
+                "SELECT p FROM Parent p ORDER BY p.id DESC", Parent.class);
         query.setFirstResult((page - 1) * perPage);
         query.setMaxResults(perPage);
-
-
-        query.setHint("jakarta.persistence.fetchgraph", graph);
-
         List<Parent> parents = query.getResultList();
+
+        if (!parents.isEmpty()) {
+            em.createQuery(
+                            "SELECT DISTINCT p FROM Parent p LEFT JOIN FETCH p.parentDetails WHERE p IN :parents",
+                            Parent.class)
+                    .setParameter("parents", parents)
+                    .getResultList();
+        }
         return parents;
     }
 
+    @Override
+    public Long countAll() {
+        return em.createQuery("SELECT COUNT(p) FROM Parent p", Long.class).getSingleResult();
+    }
 
     @Override
-    public Parent save(ParentRequestDTO parentRequestDto) {
-        return null;
+    public Parent save(Parent parent) {
+        em.persist(parent);
+        return parent;
     }
 
     @Override
@@ -57,7 +63,7 @@ public class ParentFacade implements ParentFacadeLocal {
     }
 
     @Override
-    public Parent update(Long idParent, ParentRequestDTO parentRequestDto) {
+    public Parent update(Long idParent, Parent parent) {
         return null;
     }
 

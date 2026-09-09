@@ -1,0 +1,12 @@
+.bottom-container{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.header-parentTable{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}

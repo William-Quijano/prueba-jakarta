@@ -4,6 +4,7 @@
     <option name="state">
       <map>
         <entry key="file://$PROJECT_DIR$/prueba-web/src/main/webapp/parent.xhtml" value="file://$PROJECT_DIR$/prueba-web/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/prueba-web/src/main/webapp/resources/components/tableParent.xhtml" value="file://$PROJECT_DIR$/prueba-web/src/main/webapp/resources/components" />
       </map>
     </option>
   </component>

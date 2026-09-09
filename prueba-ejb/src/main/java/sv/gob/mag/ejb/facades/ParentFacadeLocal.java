@@ -11,9 +11,10 @@ import java.util.UUID;
 @Local
 public interface ParentFacadeLocal {
     List<Parent> listAll(Integer page, Integer prePage);
-    Parent save(ParentRequestDTO parentRequestDto);
+    Parent save(Parent parent);
     Optional<Parent> findById(Long idParent);
     Optional<Parent> findByCode(UUID codeParent);
-    Parent update(Long idParent, ParentRequestDTO parentRequestDto);
+    Parent update(Long idParent, Parent parent);
     Parent remove(Long idParent);
+    Long countAll();
 }

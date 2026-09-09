@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:composite="jakarta.faces.composite"
+>
+<composite:interface>
+    <composite:attribute name="title"/>
+</composite:interface>
+
+
+<composite:implementation>
+
+    <p:dialog header="#{cc.attrs.title}" widgetVar="formDialog" showEffect="fade"
+              closeOnEscape="true">
+
+
+        <f:validateBean value="#{parentController.parentRequest}">
+            <h:form id="parentForm">
+                <p:panelGrid columns="1" styleClass="ui-fluid">
+                <span class="ui-float-label">
+                        <p:inputText id="name" value="#{parentController.parentRequest.name}">
+                            <p:ajax event="blur" update="nameMsg" process="@this"/>
+                        </p:inputText>
+
+                        <p:outputLabel for="name" value="Nombre"/>
+                </span>
+
+                <h:message id="nameMsg" for="name" display="text" class=""/>
+                </p:panelGrid>
+
+                <p:commandButton value=" Guardar"
+                                 action="#{parentController.saveParent()}"
+                update="@([id$=growl]) @([id$=tableParent])"
+                process="@form"/>
+            </h:form>
+        </f:validateBean>
+    </p:dialog>
+
+
+</composite:implementation>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:composite="jakarta.faces.composite">
+
+<composite:interface>
+    <composite:attribute name="value" required="true" />
+</composite:interface>
+
+<composite:implementation>
+
+    <div class="">
+
+        <p:dataTable id="tableParentDetail" value="#{cc.attrs.value}" var="parentDetail">
+
+            <p:column headerText="Nombre">
+                <h:outputText value="#{parentDetail.name}" />
+            </p:column>
+            <p:column headerText="Cantidad">
+                <h:outputText value="#{parentDetail.quantity}" />
+            </p:column>
+            <p:column headerText="Creacion">
+                <h:outputText value="#{parentDetail.createdAt}" />
+            </p:column>
+            <p:column headerText="Acciones" class="bottom-container">
+                <p:button value="Editar" styleClass="ui-button-outlined ui-button-info" />
+                <p:button value="Eliminar" styleClass="ui-button-outlined ui-button-danger" />
+            </p:column>
+
+
+        </p:dataTable>
+    </div>
+</composite:implementation>
+</html>
