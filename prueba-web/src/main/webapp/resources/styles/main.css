@@ -1,12 +1,20 @@
-.bottom-container{
+
+.bottom-container {
     display: flex;
     flex-direction: row;
     gap: 5px;
+    justify-content: center;
+    text-align: center !important;
 }
 
-.header-parentTable{
+.column-align {
+    text-align: center !important;
+}
+
+.header-parent {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
+    align-content: center
 }
+

@@ -2,42 +2,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:f="jakarta.faces.core"
       xmlns:composite="jakarta.faces.composite"
 >
 <composite:interface>
-    <composite:attribute name="title"/>
+    <composite:attribute name="isUpdate" required="true" />
+    <composite:attribute name="formAttrs" required="true" />
+    <composite:attribute name="submit" required="true" method-signature="java.lang.Object action()" />
 </composite:interface>
 
 
 <composite:implementation>
 
-    <p:dialog header="#{cc.attrs.title}" widgetVar="formDialog" showEffect="fade"
-              closeOnEscape="true">
+    <p:importEnum type="sv.gob.mag.dto.enums.StatusEnum" var="Status" allSuffix="ALL_VALUES"/>
 
+    <f:validateBean value="#{cc.attrs.formAttrs}">
+        <h:form id="parentForm">
+            <p:panelGrid columns="1" styleClass="ui-fluid">
+                <p:panel>
+                    <p:outputLabel for="name" value="Nombre:"/>
+                    <p:inputText id="name" value="#{cc.attrs.formAttrs.name}">
+                        <p:ajax event="blur" update="nameMsg" process="@this"/>
+                    </p:inputText>
+                    <h:message id="nameMsg" for="name" display="text" class="message-error"/>
+                </p:panel>
+                <p:panel rendered="#{cc.attrs.isUpdate}">
+                    <p:outputLabel for="status" value="Estado:"/>
+                    <p:selectOneMenu id="status" value="#{cc.attrs.formAttrs.status}">
+                        <p:ajax event="blur" update="statusMsg" process="@this"/>
+                        <f:selectItems value="#{Status.ALL_VALUES}"
+                                       var="state"
+                                       itemLabel="#{state}"
+                                       itemValue="#{state}"/>
+                    </p:selectOneMenu>
+                    <h:message id="statusMsg" for="status" display="text" class="message-error"/>
+                </p:panel>
 
-        <f:validateBean value="#{parentController.parentRequest}">
-            <h:form id="parentForm">
-                <p:panelGrid columns="1" styleClass="ui-fluid">
-                <span class="ui-float-label">
-                        <p:inputText id="name" value="#{parentController.parentRequest.name}">
-                            <p:ajax event="blur" update="nameMsg" process="@this"/>
-                        </p:inputText>
+            </p:panelGrid>
 
-                        <p:outputLabel for="name" value="Nombre"/>
-                </span>
-
-                <h:message id="nameMsg" for="name" display="text" class=""/>
-                </p:panelGrid>
-
-                <p:commandButton value=" Guardar"
-                                 action="#{parentController.saveParent()}"
-                update="@([id$=growl]) @([id$=tableParent])"
-                process="@form"/>
-            </h:form>
-        </f:validateBean>
-    </p:dialog>
-
-
+            <p:commandButton value="#{cc.attrs.isUpdate ? 'Actualizar' : 'Guardar'}"
+                             action="#{cc.attrs.submit}"
+                             update="@([id$=growl]) @([id$=tableParent])"
+                             process="@form"
+                             disabled="#{empty cc.attrs.formAttrs}"
+            />
+        </h:form>
+    </f:validateBean>
 </composite:implementation>
 </html>

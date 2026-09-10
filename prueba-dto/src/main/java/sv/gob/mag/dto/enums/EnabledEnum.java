@@ -1,4 +1,4 @@
-package sv.gob.mag.ejb.enums;
+package sv.gob.mag.dto.enums;
 
 import lombok.Getter;
 

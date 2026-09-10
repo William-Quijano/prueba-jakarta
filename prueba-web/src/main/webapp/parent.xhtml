@@ -27,9 +27,38 @@
         </f:metadata>
     </ui:define>
     <p:growl id="growl" showDetail="true"/>
+    <div class="header-parent">
+        <h1>Crud Jakarta</h1>
+        <h:form style="align-content: center">
+            <p:commandButton
+                    value="Agregar"
+                    type="button"
+                    icon="pi pi-plus"
+                    onclick="PF('formDialogCreate').show()"
+                    styleClass="ui-button-outlined ui-button-text-icon-primary"
+            />
+        </h:form>
 
-    <component:tableParent value="#{parentController.parentList}"/>
+    </div>
+    <component:tableParent value="#{parentController.parentList}" />
+    <p:dialog header="Creacion parent" width="800" widgetVar="formDialogCreate" showEffect="fade"
+              closeOnEscape="true">
+        <component:formParent
+                isUpdate="false"
+                formAttrs="#{parentController.parentRequest}"
+                submit="#{parentController.createParent()}"
+        />
+    </p:dialog>
 
+    <p:dialog header="Actualizacion parent" width="800" widgetVar="formDialogUpdate" showEffect="fade"
+              closeOnEscape="true">
+        <component:formParent
+                id="formUpdate"
+                isUpdate="true"
+                formAttrs="#{parentController.parentSelect}"
+                submit="#{parentController.updateParent}"
+        />
+    </p:dialog>
 
 
 </h:body>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:f="jakarta.faces.core"
       xmlns:composite="jakarta.faces.composite"
       xmlns:component="jakarta.faces.composite/components"
 >
@@ -10,10 +10,15 @@
 <composite:interface>
     <composite:attribute name="value" required="true"/>
 </composite:interface>
+
 <composite:implementation>
     <h:outputStylesheet library="styles" name="main.css"/>
+    <h:outputStylesheet library="styles" name="parentTable.css"/>
+    <h:outputStylesheet library="styles" name="parentDetailTable.css"/>
+    <h:outputStylesheet library="styles" name="formParent.css"/>
+
     <h:form id="tableForm">
-        <p:dataTable id="tableParent" value="#{cc.attrs.value}" var="parent"
+        <p:dataTable stripedRows="true" id="tableParent" value="#{cc.attrs.value}" var="parent"
                      lazy="true"
                      rowKey="#{parent.code}"
                      rows="10"
@@ -22,45 +27,49 @@
                      currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                      rowsPerPageTemplate="5,10,20"
         >
-            <f:facet name="header" >
-                <div class="header-parentTable">
-                    Parent Jakarta
-                    <p:commandButton value="Agregar" type="button" icon="pi pi-plus" onclick="PF('formDialog').show()"/>
-                </div>
-            </f:facet>
+<!--            <f:facet name="header" >-->
+<!--                <div class="header-parentTable">-->
+<!--                    Parent Jakarta-->
+<!--                    -->
+<!--            </f:facet>-->
             <p:column style="width:2rem" ariaHeaderText="Row Toggler">
                 <p:rowToggler rendered="#{not empty parent.parentDetails}"/>
             </p:column>
-            <p:column headerText="Código">
+            <p:column headerText="Código" styleClass="column-align">
                 <h:outputText value="#{parent.code}"/>
             </p:column>
-            <p:column headerText="Nombre">
+            <p:column headerText="Nombre" styleClass="column-align">
                 <h:outputText value="#{parent.name}"/>
             </p:column>
 
-            <p:column headerText="Estado">
+            <p:column headerText="Estado" styleClass="column-align">
                 <p:badge rendered="#{parent.status == 'APROBADO'}" severity="success" value="#{parent.status}"
                          styleClass="mr-2"/>
                 <p:badge rendered="#{parent.status == 'PENDIENTE'}" severity="danger" value="#{parent.status}"
                          styleClass="mr-2"/>
 
             </p:column>
-            <p:column headerText="Fecha creación">
+            <p:column headerText="Fecha creación" styleClass="column-align">
                 <h:outputText value="#{parent.createdAt}"/>
             </p:column>
 
-            <p:column headerText="Acciones" class="bottom-container">
-                <p:button value="Editar" styleClass="ui-button-outlined ui-button-info"/>
-                <p:button value="Eliminar" styleClass="ui-button-outlined ui-button-danger"/>
+            <p:column headerText="Acciones" styleClass="bottom-container">
+                <p:commandButton
+                        value="Editar"
+                        styleClass="ui-button-outlined ui-button-info"
+                        action="#{parentController.loadParent(parent.id)}"
+                        process="@this"
+                        update="@([id$='formUpdate:parentForm'])"
+                        oncomplete="PF('formDialogUpdate').show()"
+                />
+                <p:commandButton type="button" value="Eliminar" styleClass="ui-button-outlined ui-button-danger"/>
             </p:column>
 
-            <p:rowExpansion>
+            <p:rowExpansion >
                 <component:tableParentDetail value="#{parent.parentDetails}"/>
             </p:rowExpansion>
 
         </p:dataTable>
     </h:form>
-
-    <component:formParent title="Creacion parent"/>
 </composite:implementation>
 </html>

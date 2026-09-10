@@ -3,14 +3,12 @@ package sv.gob.mag.ejb.entities;
 import jakarta.persistence.*;
 
 import lombok.*;
-import sv.gob.mag.dto.response.ParentDetailResponseDTO;
-import sv.gob.mag.ejb.enums.StatusEnum;
+import sv.gob.mag.dto.enums.StatusEnum;
 import sv.gob.mag.ejb.entities.listeners.AuditListener;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter

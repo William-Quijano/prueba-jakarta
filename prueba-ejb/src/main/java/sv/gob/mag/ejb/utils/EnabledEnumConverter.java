@@ -2,7 +2,7 @@ package sv.gob.mag.ejb.utils;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import sv.gob.mag.ejb.enums.EnabledEnum;
+import sv.gob.mag.dto.enums.EnabledEnum;
 
 @Converter(autoApply = true)
 public class EnabledEnumConverter implements AttributeConverter<EnabledEnum, String> {

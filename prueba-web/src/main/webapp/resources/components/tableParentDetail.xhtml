@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="jakarta.faces.html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:f="jakarta.faces.core"
       xmlns:composite="jakarta.faces.composite">
 
 <composite:interface>
@@ -11,20 +11,20 @@
 
 <composite:implementation>
 
-    <div class="">
+    <div class="parentDetail-table_style">
 
         <p:dataTable id="tableParentDetail" value="#{cc.attrs.value}" var="parentDetail">
 
-            <p:column headerText="Nombre">
+            <p:column headerText="Nombre" styleClass="column-align">
                 <h:outputText value="#{parentDetail.name}" />
             </p:column>
-            <p:column headerText="Cantidad">
+            <p:column headerText="Cantidad" styleClass="column-align">
                 <h:outputText value="#{parentDetail.quantity}" />
             </p:column>
-            <p:column headerText="Creacion">
+            <p:column headerText="Creacion" styleClass="column-align">
                 <h:outputText value="#{parentDetail.createdAt}" />
             </p:column>
-            <p:column headerText="Acciones" class="bottom-container">
+            <p:column headerText="Acciones" styleClass="bottom-container">
                 <p:button value="Editar" styleClass="ui-button-outlined ui-button-info" />
                 <p:button value="Eliminar" styleClass="ui-button-outlined ui-button-danger" />
             </p:column>

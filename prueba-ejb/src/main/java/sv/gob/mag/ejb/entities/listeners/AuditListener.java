@@ -4,7 +4,7 @@ import jakarta.persistence.PrePersist;
 import sv.gob.mag.ejb.entities.Audit;
 import sv.gob.mag.ejb.entities.AuditWithEnabled;
 import sv.gob.mag.ejb.entities.Parent;
-import sv.gob.mag.ejb.enums.StatusEnum;
+import sv.gob.mag.dto.enums.StatusEnum;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

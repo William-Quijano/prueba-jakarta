@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParentDetailRequestDTO implements Serializable {
+public class ParentDetaiCreatelRequestDTO implements Serializable {
 
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 210, message = "El nombre no debe exceder los 100 caracteres")
