@@ -12,7 +12,8 @@ public interface ParentFacadeLocal {
     Parent save(Parent parent);
     Optional<Parent> findById(Long idParent);
     Optional<Parent> findByCode(String codeParent);
-    Parent update(Parent parent);
-    Parent remove(Long idParent);
+    void update(Parent parent);
+    void remove(Parent Parent);
     Long countAll();
+    void updateEnabled(Parent parent);
 }

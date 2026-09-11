@@ -3,3 +3,10 @@
     justify-content: center;
 
 }
+
+.btn-add_parentDetail{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 5px;
+}

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import sv.gob.mag.dto.enums.EnabledEnum;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class ParentResponseDTO implements Serializable {
     private String code;
     private String name;
     private String status;
-    private Integer enabled;
+    private EnabledEnum enabled;
 
     private List<ParentDetailResponseDTO> parentDetails;
 

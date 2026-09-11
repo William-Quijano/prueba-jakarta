@@ -1,7 +1,6 @@
 package sv.gob.mag.prueba.web.controller;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.el.MethodExpression;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -9,10 +8,10 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.LazyDataModel;
+import sv.gob.mag.dto.enums.EnabledEnum;
 import sv.gob.mag.dto.enums.StatusEnum;
 import sv.gob.mag.dto.request.ParentCreateRequestDTO;
 import sv.gob.mag.dto.request.ParentUpdateRequestDTO;
@@ -28,7 +27,6 @@ import java.io.Serializable;
 
 @Named("parentController")
 @ViewScoped
-@NoArgsConstructor
 @Getter
 @Setter
 public class ParentController implements Serializable {
@@ -36,21 +34,26 @@ public class ParentController implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private ParentService parentService;
+
+    private final ParentService parentService;
 
     private LazyDataModel<ParentResponseDTO> parentList;
     private StatusEnum selectStatus;
-
     private ParentCreateRequestDTO parentRequest = new ParentCreateRequestDTO();
     private ParentUpdateRequestDTO parentSelect = new ParentUpdateRequestDTO();
+    private Long idParentSelect;
+
+    @Inject
+    public ParentController(ParentService parentService) {
+        this.parentService = parentService;
+    }
 
     @PostConstruct
     public void init() {
         this.parentList = new ParentLazyDataModel(parentService);
     }
 
-    public ParentResponseDTO createParent() {
+    public void createParent() {
         try {
             parentService.registerParent(parentRequest);
             parentRequest = new ParentCreateRequestDTO();
@@ -62,24 +65,6 @@ public class ParentController implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
         }
-        return null;
-    }
-
-    public void resetParentRequest() {
-        this.parentRequest = new ParentCreateRequestDTO();
-    }
-
-
-    public ParentResponseDTO loadParent(Long idParent) {
-        try {
-            ParentResponseDTO parent = this.parentService.getParent(idParent);
-            this.parentSelect.setName(parent.getName());
-            this.parentSelect.setStatus(StatusEnum.valueOf(parent.getStatus()));
-        } catch (BusinessException e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
-        }
-        return null;
     }
 
     public void updateParent() {
@@ -89,6 +74,48 @@ public class ParentController implements Serializable {
             this.parentSelect = new ParentUpdateRequestDTO();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Registro actualizado correctamente"));
+        } catch (BusinessException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+        }
+    }
+
+    public void removeParent() {
+        try {
+
+            this.parentService.removeParent(this.idParentSelect);
+            PrimeFaces.current().executeScript("PF('deleteConfirmationDialog').hide();");
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Registro elimando con exito"));
+        } catch (BusinessException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+        }
+    }
+
+    public void loadParent(Long idParent) {
+        try {
+            ParentResponseDTO parent = this.parentService.getParent(idParent);
+            this.parentSelect.setId(parent.getId());
+            this.parentSelect.setName(parent.getName());
+            this.parentSelect.setStatus(StatusEnum.valueOf(parent.getStatus()));
+        } catch (BusinessException e) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+        }
+    }
+
+    public void setIdParent(Long idParent) {
+        this.idParentSelect = idParent;
+    }
+
+    public void resetParentRequest() {
+        this.parentRequest = new ParentCreateRequestDTO();
+    }
+    public void updateEnabledParent(EnabledEnum enabled){
+        try {
+            System.out.println("enableEnum" + enabled);
+            this.parentService.updateEnableParent(enabled);
         } catch (BusinessException e) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));

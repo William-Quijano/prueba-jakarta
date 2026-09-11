@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import sv.gob.mag.dto.enums.EnabledEnum;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,5 +18,5 @@ public class AuditWithEnabled extends Audit implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "ENABLED" , columnDefinition = "NUMBER(1)", nullable = false)
-    private Integer enabled;
+    private EnabledEnum enabled;
 }

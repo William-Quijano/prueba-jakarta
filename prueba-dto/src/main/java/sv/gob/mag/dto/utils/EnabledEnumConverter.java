@@ -1,4 +1,4 @@
-package sv.gob.mag.ejb.utils;
+package sv.gob.mag.dto.utils;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

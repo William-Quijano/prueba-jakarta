@@ -3,8 +3,10 @@ package sv.gob.mag.prueba.web.services;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.modelmapper.ModelMapper;
+import sv.gob.mag.dto.enums.EnabledEnum;
 import sv.gob.mag.dto.request.ParentCreateRequestDTO;
 import sv.gob.mag.dto.request.ParentUpdateRequestDTO;
+import sv.gob.mag.dto.response.ParentDetailResponseDTO;
 import sv.gob.mag.dto.response.ParentResponseDTO;
 import sv.gob.mag.ejb.entities.Parent;
 import sv.gob.mag.ejb.exceptions.BusinessException;
@@ -14,6 +16,7 @@ import sv.gob.mag.ejb.facades.ParentFacadeLocal;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+
 
 @ApplicationScoped
 public class ParentService {
@@ -26,9 +29,16 @@ public class ParentService {
 
     public List<ParentResponseDTO> getAllParent(Integer page, Integer prePage) {
         List<Parent> parents = this.parentFacade.getAll(page, prePage);
-        return parents.stream()
-                .map(parent -> modelMapper.map(parent, ParentResponseDTO.class))
-                .toList();
+        return parents.stream().map(parent -> {
+            ParentResponseDTO dto = modelMapper.map(parent, ParentResponseDTO.class);
+            if (parent.getParentDetails() != null && !parent.getParentDetails().isEmpty()) {
+                List<ParentDetailResponseDTO> detailDTOs = parent.getParentDetails().stream()
+                        .map(detail -> modelMapper.map(detail, ParentDetailResponseDTO.class))
+                        .toList();
+                dto.setParentDetails(detailDTOs);
+            }
+            return dto;
+        }).toList();
     }
 
     public Long countAll() {
@@ -45,6 +55,10 @@ public class ParentService {
     }
 
     public ParentResponseDTO getParent(Long idParent) {
+        if (idParent == null) {
+            throw new BusinessException("El id del registro es requerido");
+        }
+
         Parent parent = this.parentFacade.findById(idParent)
                 .orElseThrow(() -> new BusinessException("El id brindado no existe"));
 
@@ -54,13 +68,34 @@ public class ParentService {
         return modelMapper.map(parent, ParentResponseDTO.class);
     }
 
-    public ParentResponseDTO updateParent(ParentUpdateRequestDTO parentUpdateRequestDTO){
+    public void updateParent(ParentUpdateRequestDTO parentUpdateRequestDTO) {
+        if (parentUpdateRequestDTO.getId() == null) {
+            throw new BusinessException("El id del registro es requerido");
+        }
+
         Parent parent = this.parentFacade.findById(parentUpdateRequestDTO.getId())
                 .orElseThrow(() -> new BusinessException("El registro a actualizar no existe"));
 
-        parent.setName(request.getName());
-        parent.setStatus(request.getStatus().name()); // O el tipo correspondiente en tu entidad
+        parent.setName(parentUpdateRequestDTO.getName());
+        parent.setStatus(parentUpdateRequestDTO.getStatus());
 
-        this.parentFacade.update(parent); // O em.merge(parent) según tu implementación de EJB/Facade
+        this.parentFacade.update(parent);
+    }
+
+    public void removeParent(Long idParent) {
+        if (idParent == null) {
+            throw new BusinessException("El id del registro es requerido");
+        }
+        Parent parent = this.parentFacade.findById(idParent)
+                .orElseThrow(() -> new BusinessException("El registro a actualizar no existe"));
+
+        this.parentFacade.remove(parent);
+    }
+
+    public void updateEnableParent(EnabledEnum enabled) {
+
+        Parent parent = new Parent();
+        parent.setEnabled(enabled);
+        this.parentFacade.updateEnabled(parent);
     }
 }

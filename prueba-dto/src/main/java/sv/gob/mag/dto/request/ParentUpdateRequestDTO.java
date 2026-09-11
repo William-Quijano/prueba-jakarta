@@ -2,7 +2,6 @@ package sv.gob.mag.dto.request;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import sv.gob.mag.dto.enums.StatusEnum;
 
 import java.io.Serial;

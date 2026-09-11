@@ -29,19 +29,10 @@ public class ParentFacade implements ParentFacadeLocal {
     @Override
     public List<Parent> getAll(Integer page, Integer perPage) {
         TypedQuery<Parent> query = em.createQuery(
-                "SELECT p FROM Parent p ORDER BY p.id DESC", Parent.class);
+                "SELECT DISTINCT p FROM Parent p LEFT JOIN FETCH p.parentDetails ORDER BY p.id DESC", Parent.class);
         query.setFirstResult((page - 1) * perPage);
         query.setMaxResults(perPage);
-        List<Parent> parents = query.getResultList();
-
-        if (!parents.isEmpty()) {
-            em.createQuery(
-                            "SELECT DISTINCT p FROM Parent p LEFT JOIN FETCH p.parentDetails WHERE p IN :parents",
-                            Parent.class)
-                    .setParameter("parents", parents)
-                    .getResultList();
-        }
-        return parents;
+        return query.getResultList();
     }
 
 
@@ -56,6 +47,8 @@ public class ParentFacade implements ParentFacadeLocal {
     public Long countAll() {
         return em.createQuery("SELECT COUNT(p) FROM Parent p", Long.class).getSingleResult();
     }
+
+
 
     /**
      * Guarda un nuevo registro
@@ -104,10 +97,10 @@ public class ParentFacade implements ParentFacadeLocal {
      *
      */
     @Override
-    public Parent update(Parent parent) {
-        parent.setName(parent.getName());
-        parent.setStatus(parent.getStatus());
-        return em.merge(parent);
+    public void update(Parent parent) {
+        Parent parentUpdate = em.merge(parent);
+        parentUpdate.setName(parent.getName());
+        parentUpdate.setStatus(parent.getStatus());
     }
 
 
@@ -119,7 +112,16 @@ public class ParentFacade implements ParentFacadeLocal {
      *
      */
     @Override
-    public Parent remove(Long idParent) {
-        return null;
+    public void remove(Parent parent) {
+        if (!em.contains(parent)) {
+            parent = em.merge(parent);
+        }
+        em.remove(parent);
+    }
+
+    @Override
+    public void updateEnabled(Parent parent) {
+        Parent parentUpdate = em.merge(parent);
+        parentUpdate.setEnabled(parent.getEnabled());
     }
 }

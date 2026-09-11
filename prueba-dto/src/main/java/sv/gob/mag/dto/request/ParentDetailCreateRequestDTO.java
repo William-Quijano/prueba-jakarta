@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParentDetaiCreatelRequestDTO implements Serializable {
+public class ParentDetailCreateRequestDTO implements Serializable {
 
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 210, message = "El nombre no debe exceder los 100 caracteres")
@@ -22,7 +22,7 @@ public class ParentDetaiCreatelRequestDTO implements Serializable {
 
     @NotNull(message = "Debe seleccionar un registro Padre obligatoriamente.")
     @Positive(message = "El identificador del registro Padre no es válido.")
-    private Long idParentDetail;
+    private Long idParent;
 
 
 }

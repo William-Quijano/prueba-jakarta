@@ -1,6 +1,7 @@
 package sv.gob.mag.ejb.entities.listeners;
 
 import jakarta.persistence.PrePersist;
+import sv.gob.mag.dto.enums.EnabledEnum;
 import sv.gob.mag.ejb.entities.Audit;
 import sv.gob.mag.ejb.entities.AuditWithEnabled;
 import sv.gob.mag.ejb.entities.Parent;
@@ -33,7 +34,7 @@ public class AuditListener {
 
     private void registerEnabled(AuditWithEnabled auditWithEnabled){
         if (auditWithEnabled.getEnabled() != null) return;
-        auditWithEnabled.setEnabled(1);
+        auditWithEnabled.setEnabled(EnabledEnum.ACTIVE);
 
     }
 

@@ -27,14 +27,10 @@
                      currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                      rowsPerPageTemplate="5,10,20"
         >
-<!--            <f:facet name="header" >-->
-<!--                <div class="header-parentTable">-->
-<!--                    Parent Jakarta-->
-<!--                    -->
-<!--            </f:facet>-->
             <p:column style="width:2rem" ariaHeaderText="Row Toggler">
                 <p:rowToggler rendered="#{not empty parent.parentDetails}"/>
             </p:column>
+
             <p:column headerText="Código" styleClass="column-align">
                 <h:outputText value="#{parent.code}"/>
             </p:column>
@@ -62,10 +58,25 @@
                         update="@([id$='formUpdate:parentForm'])"
                         oncomplete="PF('formDialogUpdate').show()"
                 />
-                <p:commandButton type="button" value="Eliminar" styleClass="ui-button-outlined ui-button-danger"/>
+
+                <p:commandButton
+                        value="Eliminar"
+                        styleClass="ui-button-outlined ui-button-danger"
+                        action="#{parentController.setIdParent(parent.id)}"
+                        process="@this"
+                        oncomplete="PF('deleteConfirmationDialog').show()"
+                />
+
+<!--                <p:commandButton-->
+<!--                        icon="#{parent.enabled == 1 ? 'pi pi-times' : 'pi pi-check' }"-->
+<!--                        styleClass="ui-button-outlined #{parent.enabled == 1 ? 'ui-button-danger': 'ui-button-success'}"-->
+<!--                        process="@this"-->
+<!--                        action="#{parentController.updateEnabledParent(parent.enabled)}"-->
+<!--                />-->
+
             </p:column>
 
-            <p:rowExpansion >
+            <p:rowExpansion>
                 <component:tableParentDetail value="#{parent.parentDetails}"/>
             </p:rowExpansion>
 
